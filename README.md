@@ -1,1 +1,3 @@
-That is the the main repository for a Software Engineering Methods Group Project
+This is the dev branch.
+
+![workflow](https://github.com/<UserName>/<RepositoryName>/actions/workflows/main.yml/badge.svg)
