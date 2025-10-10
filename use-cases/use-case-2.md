@@ -16,7 +16,7 @@ Primary task.
 
 ### Preconditions
 
-Database contains current employee salary data and all employee records.
+The department is known, Database contains current employee salary data and all employee records of the department.
 
 ### Success End Condition
 
@@ -43,7 +43,7 @@ A request for finance information is sent to HR.
 
 ## EXTENSIONS
 
-3. **Employee record is missing**:
+3. **Department cannot be found**:
     1. HR advisor informs finance a record is missing from the database.
 
 ## SUB-VARIATIONS
