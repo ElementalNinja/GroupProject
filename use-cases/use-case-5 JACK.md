@@ -1,50 +1,48 @@
-# USE CASE: 4 Produce a Report on the Salary of Employees of a Given Role
+# USE CASE: 5 I want to add a new employee's details so that I can ensure the new employee is paid.
 
 ## CHARACTERISTIC INFORMATION
 
 ### Goal in Context
+As an HR advisor I want to add a new employee's details so that I can ensure the new employee is paid.
 
-As an *HR advisor* I want *to produce a report on the salary of employees of a given role* so that *I can support financial reporting of the organisation.*
+
 
 ### Scope
 
 Company.
 
 ### Level
+Primary Task
 
-Primary task.
 
 ### Preconditions
+Employee has provided correct and accurate details such as name, DOB, email, phone no and banking details
 
-We know the role.  Database contains current employee salary data.
 
 ### Success End Condition
+Employee details have been added to the database correctly, allowing them to get paid
 
-A report is available for HR to provide to finance.
 
 ### Failed End Condition
+New employee details were unable to be added resulting in the unable to get paid
 
-No report is produced.
 
 ### Primary Actor
 
-HR Advisor.
+HR Advisor / New employee
 
 ### Trigger
-
-A request for finance information is sent to HR.
+Employee is hired by the company
 
 ## MAIN SUCCESS SCENARIO
-
-1. Finance request salary information for a given role.
-2. HR advisor captures name of the role to get salary information for.
-3. HR advisor extracts current salary information of all employees of the given role.
-4. HR advisor provides report to finance.
+1. New employee provides correct details
+2. HR advisor is able to add the employee to the payment system
+3. Employee receives first paycheck successfully and on time
 
 ## EXTENSIONS
-
-3. **Role does not exist**:
-    1. HR advisor informs finance no role exists.
+1. Employee provided details incorrectly
+2. HR advisor made a mistake when adding the details
+  
 
 ## SUB-VARIATIONS
 
@@ -52,4 +50,4 @@ None.
 
 ## SCHEDULE
 
-**DUE DATE**: Release 1.0
+**DUE DATE**: 
