@@ -1,39 +1,55 @@
-USE CASE: 4 Produce a Report on the Salary of Employees of a Given Role
-CHARACTERISTIC INFORMATION
-Goal in Context
-As an HR advisor I want to produce a report on the salary of employees of a given role so that I can support financial reporting of the organisation.
+# USE CASE: 4 Produce a Report on the Salary of Employees of a Given Role
 
-Scope
+## CHARACTERISTIC INFORMATION
+
+### Goal in Context
+
+As an *HR advisor* I want *to produce a report on the salary of employees of a given role* so that *I can support financial reporting of the organisation.*
+
+### Scope
+
 Company.
 
-Level
+### Level
+
 Primary task.
 
-Preconditions
-We know the role. Database contains current employee salary data.
+### Preconditions
 
-Success End Condition
+We know the role.  Database contains current employee salary data.
+
+### Success End Condition
+
 A report is available for HR to provide to finance.
 
-Failed End Condition
+### Failed End Condition
+
 No report is produced.
 
-Primary Actor
+### Primary Actor
+
 HR Advisor.
 
-Trigger
+### Trigger
+
 A request for finance information is sent to HR.
 
-MAIN SUCCESS SCENARIO
-Finance request salary information for a given role.
-HR advisor captures name of the role to get salary information for.
-HR advisor extracts current salary information of all employees of the given role.
-HR advisor provides report to finance.
-EXTENSIONS
-Role does not exist:
-HR advisor informs finance no role exists.
-SUB-VARIATIONS
+## MAIN SUCCESS SCENARIO
+
+1. Finance request salary information for a given role.
+2. HR advisor captures name of the role to get salary information for.
+3. HR advisor extracts current salary information of all employees of the given role.
+4. HR advisor provides report to finance.
+
+## EXTENSIONS
+
+3. **Role does not exist**:
+    1. HR advisor informs finance no role exists.
+
+## SUB-VARIATIONS
+
 None.
 
-SCHEDULE
-DUE DATE: Release 1.0
+## SCHEDULE
+
+**DUE DATE**: Release 1.0
