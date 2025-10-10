@@ -44,7 +44,7 @@ A request for finance information is sent to HR.
 ## EXTENSIONS
 
 3. **Department cannot be found**:
-    1. HR advisor informs finance a record is missing from the database.
+    1. HR advisor informs finance the department doesnt exist or cannot be found.
 
 ## SUB-VARIATIONS
 
