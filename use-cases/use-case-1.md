@@ -1,4 +1,4 @@
-USE CASE: 1 produce a report on the salary of all employees so that I can support financial reporting of the organisation.
+USE CASE: 4 Produce a Report on the Salary of Employees of a Given Role
 CHARACTERISTIC INFORMATION
 Goal in Context
 As an HR advisor I want to produce a report on the salary of employees of a given role so that I can support financial reporting of the organisation.
