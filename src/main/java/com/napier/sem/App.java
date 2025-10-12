@@ -82,9 +82,31 @@ public class App
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT emp_no, first_name, last_name "
-                            + "FROM employees "
-                            + "WHERE emp_no = " + ID;
+                    "SELECT e.emp_no, e.first_name, e.last_name, " +
+                            "   t.title AS title, " +
+                            "   s.salary AS salary, " +
+                            "   d.dept_name AS dept_name, " +
+                            "   CONCAT(m.first_name, ' ', m.last_name) AS manager " +
+                            "FROM employees e " +
+                            "LEFT JOIN titles t " +
+                            "   ON t.emp_no = e.emp_no " +
+                            "   AND t.to_date = '9999-01-01' " +
+                            "LEFT JOIN salaries s " +
+                            "   ON s.emp_no = e.emp_no " +
+                            "   AND s.to_date = '9999-01-01' " +
+                            "LEFT JOIN dept_emp de " +
+                            "   ON de.emp_no = e.emp_no " +
+                            "   AND de.to_date = '9999-01-01' " +
+                            "LEFT JOIN departments d " +
+                            "   ON d.dept_no = de.dept_no " +
+                            "LEFT JOIN dept_manager dm " +
+                            "   ON dm.dept_no = de.dept_no " +
+                            "   AND dm.to_date = '9999-01-01' " +
+                            "LEFT JOIN employees m " +
+                            "   ON m.emp_no = dm.emp_no " +
+                            "WHERE e.emp_no = " + ID;
+
+
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
@@ -95,6 +117,10 @@ public class App
                 emp.emp_no = rset.getInt("emp_no");
                 emp.first_name = rset.getString("first_name");
                 emp.last_name = rset.getString("last_name");
+                emp.title = rset.getString("title");
+                emp.salary = rset.getInt("salary");
+                emp.dept_name = rset.getString("dept_name");
+                emp.manager = rset.getString("manager");
                 return emp;
             }
             else
@@ -108,6 +134,21 @@ public class App
         }
     }
 
+    public void displayEmployee(Employee emp)
+    {
+        if (emp != null)
+        {
+            System.out.println(
+                    emp.emp_no + " "
+                            + emp.first_name + " "
+                            + emp.last_name + "\n"
+                            + emp.title + "\n"
+                            + "Salary: £" + emp.salary + "\n"
+                            + emp.dept_name + "\n"
+                            + "Manager: " + emp.manager + "\n");
+        }
+    }
+
 
     public static void main(String[] args)
     {
@@ -116,6 +157,10 @@ public class App
 
         // Connect to database
         a.connect();
+        // Get Employee
+        Employee emp = a.getEmployee(255530);
+        // Display results
+        a.displayEmployee(emp);
 
         // Disconnect from database
         a.disconnect();
