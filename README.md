@@ -1,4 +1,4 @@
-This is the main branch for 0.2.0-alpha-2.
+This is the main branch for 0.2.0-alpha-2
 
 ![Feature branch workflow check](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=feature%2Fview-record&label=Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
 
