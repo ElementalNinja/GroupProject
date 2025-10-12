@@ -1,4 +1,4 @@
-This is release 0.2.0-alpha-1. 
+This is the develop branch for 0.2.0-alpha-1. 
 
 ![Develop Build Status](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=develop&label=Develop%20Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
 
