@@ -1,4 +1,4 @@
-# USE CASE: 3 
+# USE CASE 3: Produce a report on employee salaries in my department
 
 ## CHARACTERISTIC INFORMATION
 
@@ -37,7 +37,8 @@ A request for salary information regarding all employees in this specific depart
 3. HR Advisor sends in report
 
 ## EXTENSIONS
-None
+Missing employee salaries in system
+  - Report to finance and IT support
 
 ## SUB-VARIATIONS
 
