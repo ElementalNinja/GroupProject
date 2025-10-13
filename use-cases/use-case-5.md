@@ -1,4 +1,4 @@
-# USE CASE: 5 I want to add a new employee's details so that I can ensure the new employee is paid.
+# USE CASE 5: Add new employee details to ensure new employee is paid correctly.
 
 ## CHARACTERISTIC INFORMATION
 
@@ -41,7 +41,9 @@ Employee is hired by the company
 
 ## EXTENSIONS
 1. Employee provided details incorrectly
+  - Ask for employee details again.
 2. HR advisor made a mistake when adding the details
+  - Retry entering details.
   
 
 ## SUB-VARIATIONS
