@@ -1,8 +1,9 @@
-# USE CASE: 5 As an HR advisor I want to view an employee's details so that the employee's promotion request can be supported.	
+# USE CASE: Review an employees details to aid in promotion request
 ## CHARACTERISTIC INFORMATION
 
 ### Goal in Context
 
+As an HR advisor I want to view an employee's details so that the employee's promotion request can be supported.	
 
 
 
