@@ -1,4 +1,4 @@
-This is the develop branch for 0.2.0-alpha-2.
+This is the develop branch for 0.3.0-alpha-1.
 
 ![Feature/Use-Cases Build Status](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=feature/use-cases&label=Feature%2FUse-Cases%20Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
 
