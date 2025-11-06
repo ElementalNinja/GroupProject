@@ -3,5 +3,9 @@
   <component name="DataSourcePerFileMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/fec4987c-c961-4192-b1c6-3ead87a85ea8/console.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/19_CapitalsOrder.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/20_TopPopulatedCapitals.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/21_TopPopulatedCapitalsContinent.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/22_TopPopulatedCapitalsRegion.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/23_PeoplePopulation.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
   </component>
 </project>

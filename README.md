@@ -1,6 +1,6 @@
 This is the develop branch for 0.2.0-alpha-2.
 
-![Develop Build Status](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=develop&label=Develop%20Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
+![Feature/Use-Cases Build Status](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=feature/use-cases&label=Feature%2FUse-Cases%20Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
 
 [![License](https://img.shields.io/github/license/ElementalNinja/devops?style=for-the-badge&label=License&logo=github&logoColor=white)](https://github.com/ElementalNinja/devops/blob/master/LICENSE)
 
