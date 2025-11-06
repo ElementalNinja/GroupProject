@@ -1,13 +1,6 @@
-# Use the latest MySQL image
-FROM mysql/mysql-server:latest
-# Copy all the files to the working directory of the container
-COPY test_db/*.sql /tmp/
-COPY test_db/*.dump /tmp/
-# Copy the main SQL file to docker-entrypoint-initdb.d.
-# Scripts and SQL files in this folder are executed on container startup.
-# This is specific to MySQL.
-COPY test_db/*.sql /docker-entrypoint-initdb.d/
-# Set the root password
+FROM mysql:8.0
 ENV MYSQL_DATABASE=world
 ENV MYSQL_ROOT_PASSWORD=example
 ENV MYSQL_ROOT_HOST=%
+
+COPY world_db/world.sql /docker-entrypoint-initdb.d/world.sql

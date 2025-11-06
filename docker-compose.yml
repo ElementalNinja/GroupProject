@@ -1,10 +1,9 @@
-version: '3'
-
 services:
   app:
     build: .
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_NAME: world
@@ -13,10 +12,19 @@ services:
 
   db:
     build: ./db
-    restart: always
     environment:
       MYSQL_DATABASE: world
       MYSQL_ROOT_PASSWORD: example
       MYSQL_ROOT_HOST: "%"
     ports:
-      - "33060:3306"
+      - "33060:3306"       # IntelliJ connects to localhost:33060
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pexample"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mysql_data:
