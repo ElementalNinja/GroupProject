@@ -2,4 +2,4 @@
 SELECT
   city.population AS 'Population'
 FROM city
-ORDER BY city.population DESC;
+ORDER BY 'Population' DESC;
