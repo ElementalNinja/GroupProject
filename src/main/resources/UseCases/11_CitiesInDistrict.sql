@@ -1,8 +1,7 @@
 /*All the cities in a district organised by largest population to smallest.*/
-/*All the cities in the world organised by largest population to smallest. */
 SELECT
   city.District AS 'District',
   SUM(city.Population) AS 'Population'
 FROM city
 GROUP BY city.District
-ORDER BY 'Population' DESC;
+ORDER BY SUM(city.Population) DESC;

@@ -5,4 +5,4 @@ SELECT
 FROM country
   JOIN city ON country.Capital = city.ID
 GROUP BY country.Region
-ORDER BY 'Population' DESC;
+ORDER BY SUM(city.Population) DESC;

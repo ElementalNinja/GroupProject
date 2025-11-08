@@ -2,7 +2,7 @@
 SELECT
   country.Continent AS 'Continent',
   SUM(city.Population) AS 'Population'
-FROM country
-  JOIN city ON country.Capital = city.ID
+FROM city
+  JOIN country ON country.Capital = city.ID
 GROUP BY country.Continent
-ORDER BY 'Population' DESC;
+ORDER BY SUM(city.Population) DESC;

@@ -138,6 +138,7 @@ public class App {
                 "UseCases/9_CitiesInRegion.sql",
                 "UseCases/10_CitiesInCountry.sql",
                 "UseCases/11_CitiesInDistrict.sql",
+                "UseCases/12_TopPopulatedCities.sql",
                 "UseCases/19_CapitalsOrder.sql",
                 "UseCases/20_TopPopulatedCapitals.sql",
                 "UseCases/21_TopPopulatedCapitalsContinent.sql",
