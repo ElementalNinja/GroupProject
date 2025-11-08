@@ -5,9 +5,9 @@ The total population of the continent/region/country living in cities (including
 The total population of the continent/region/country not living in cities (including a %).*/
 SELECT
   country.Name AS 'Name',
-  country.Population AS 'Total Population',
+  SUM(country.Population) AS 'Total Population',
   SUM(city.Population) AS 'City Population', 
-  (SUM(county.population)-SUM(coty.Population)) AS 'Not in city'
+  (SUM(country.population)-SUM(city.Population)) AS 'Not in city'
 FROM country
   JOIN city ON country.Capital = city.ID
 GROUP BY country.Name;

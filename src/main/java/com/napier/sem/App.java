@@ -143,7 +143,9 @@ public class App {
                 "UseCases/20_TopPopulatedCapitals.sql",
                 "UseCases/21_TopPopulatedCapitalsContinent.sql",
                 "UseCases/22_TopPopulatedCapitalsRegion.sql",
-                "UseCases/23_PeoplePopulation.sql"
+                "UseCases/23_PeoplePopulation.sql",
+                "UseCases/27_ContinentPopulation.sql",
+                "UseCases/35_PeopleInCityVsNotInCountry.sql"
         );
 
         // Create a Statement object for running SQL commands

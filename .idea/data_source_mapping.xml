@@ -3,11 +3,14 @@
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/10_CitiesInCountry.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/11_CitiesInDistrict.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/12_TopPopulatedCities.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/19_CapitalsOrder.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/20_TopPopulatedCapitals.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/21_TopPopulatedCapitalsContinent.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/22_TopPopulatedCapitalsRegion.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/23_PeoplePopulation.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/27_ContinentPopulation.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/35_PeopleInCityVsNotInCountry.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/7_CitiesInWorld.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/8_CitiesInContinent.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/UseCases/9_CitiesInRegion.sql" value="fec4987c-c961-4192-b1c6-3ead87a85ea8" />
