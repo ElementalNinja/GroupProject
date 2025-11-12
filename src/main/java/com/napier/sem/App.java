@@ -144,7 +144,13 @@ public class App {
                 "UseCases/21_TopPopulatedCapitalsContinent.sql",
                 "UseCases/22_TopPopulatedCapitalsRegion.sql",
                 "UseCases/23_PeoplePopulation.sql",
+                "UseCases/25_PeopleInCityVsNotInCity.sql",
+                "UseCases/26_WorldPopulation.sql",
                 "UseCases/27_ContinentPopulation.sql",
+                "UseCases/28_PopulationOfCountry.sql",
+                "UseCases/30_CityPopulation.sql",
+                "UseCases/32_CountryReport.sql",
+                "UseCases/34_CapitalCityReport.sql",
                 "UseCases/35_PeopleInCityVsNotInCountry.sql"
         );
 
