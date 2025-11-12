@@ -1,3 +1,9 @@
-SELECT city.District, country.Population
-FROM city JOIN country ON city.name = country.name
-WHERE city.District = "*";
+SELECT
+    city.District,
+    SUM(city.Population) AS 'Total District Population'
+FROM
+    city
+WHERE
+    city.District = 'Kabol'
+GROUP BY
+    city.District;
