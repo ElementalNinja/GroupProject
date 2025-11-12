@@ -1,168 +1,178 @@
 package com.napier.sem;
-import com.napier.sem.Employee;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.time.Duration;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-public class App
-{
+/**
+ * Main application class.
+ * Connects to the MySQL database, runs a list of SQL scripts (queries),
+ * and prints the results in a readable format.
+ */
+public class App {
+    private Connection con;
+
+    // ---------- Database Connection ----------
+
     /**
-     * Connection to MySQL database.
+     * Tries to connect to the database using environment variables.
+     * Falls back to default values if the variables aren’t set.
+     * Keeps trying until the database is ready (up to 30 times).
      */
-    private Connection con = null;
+    private Connection connect() {
+        String host = getenv("DB_HOST", "db");     // The container name in docker-compose
+        String db   = getenv("DB_NAME", "world");  // Database name
+        String user = getenv("DB_USER", "root");   // Login username
+        String pass = getenv("DB_PASSWORD", "example"); // Login password
 
-    /**
-     * Connect to the MySQL database.
-     */
-    public void connect()
-    {
-        try
-        {
-            // Load Database driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            System.out.println("Could not load SQL driver");
-            System.exit(-1);
+        // Build the JDBC connection string
+        String url = "jdbc:mysql://" + host + ":3306/" + db
+                + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        int attempts = 30; // Try 30 whole times before giving up
+        for (int i = 1; i <= attempts; i++) {
+            try {
+                // Make sure the JDBC driver is available
+                Class.forName("com.mysql.cj.jdbc.Driver");
+
+                // Try to connect
+                return DriverManager.getConnection(url, user, pass);
+            } catch (Exception e) {
+                // Wait one second before retrying (database might still be starting)
+                sleep(1000);
+            }
         }
 
-        int retries = 10;
-        for (int i = 0; i < retries; ++i)
-        {
-            System.out.println("Connecting to database...");
-            try
-            {
-                // Wait a bit for db to start
-                Thread.sleep(30000);
-                // Connect to database
-                con = DriverManager.getConnection(
-                        "jdbc:mysql://db:3306/employees?allowPublicKeyRetrieval=true&useSSL=false",
-                        "root",
-                        "example"
-                );
-                System.out.println("Successfully connected");
-                break;
-            }
-            catch (SQLException sqle)
-            {
-                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
-                System.out.println(sqle.getMessage());
-            }
-            catch (InterruptedException ie)
-            {
-                System.out.println("Thread interrupted? Should not happen.");
-            }
-        }
+        throw new RuntimeException("Could not connect to MySQL at " + url);
     }
 
     /**
-     * Disconnect from the MySQL database.
+     * Just a helper to pause execution for a short time between retries.
      */
-    public void disconnect()
-    {
-        if (con != null)
-        {
-            try
-            {
-                // Close connection
-                con.close();
-            }
-            catch (Exception e)
-            {
-                System.out.println("Error closing connection to database");
-            }
+    private static void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ignored) {
         }
     }
 
-    public Employee getEmployee(int ID)
-    {
-        try
-        {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT e.emp_no, e.first_name, e.last_name, " +
-                            "   t.title AS title, " +
-                            "   s.salary AS salary, " +
-                            "   d.dept_name AS dept_name, " +
-                            "   CONCAT(m.first_name, ' ', m.last_name) AS manager " +
-                            "FROM employees e " +
-                            "LEFT JOIN titles t " +
-                            "   ON t.emp_no = e.emp_no " +
-                            "   AND t.to_date = '9999-01-01' " +
-                            "LEFT JOIN salaries s " +
-                            "   ON s.emp_no = e.emp_no " +
-                            "   AND s.to_date = '9999-01-01' " +
-                            "LEFT JOIN dept_emp de " +
-                            "   ON de.emp_no = e.emp_no " +
-                            "   AND de.to_date = '9999-01-01' " +
-                            "LEFT JOIN departments d " +
-                            "   ON d.dept_no = de.dept_no " +
-                            "LEFT JOIN dept_manager dm " +
-                            "   ON dm.dept_no = de.dept_no " +
-                            "   AND dm.to_date = '9999-01-01' " +
-                            "LEFT JOIN employees m " +
-                            "   ON m.emp_no = dm.emp_no " +
-                            "WHERE e.emp_no = " + ID;
+    /**
+     * Reads an environment variable, or returns a default if it’s not set.
+     */
+    private static String getenv(String key, String fallback) {
+        String value = System.getenv(key);
+        return (value == null || value.isBlank()) ? fallback : value;
+    }
 
+    // ---------- SQL File Reader ----------
 
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Return new employee if valid.
-            // Check one is returned
-            if (rset.next())
-            {
-                Employee emp = new Employee();
-                emp.emp_no = rset.getInt("emp_no");
-                emp.first_name = rset.getString("first_name");
-                emp.last_name = rset.getString("last_name");
-                emp.title = rset.getString("title");
-                emp.salary = rset.getInt("salary");
-                emp.dept_name = rset.getString("dept_name");
-                emp.manager = rset.getString("manager");
-                return emp;
+    /**
+     * Reads an SQL file from the resources folder and returns it as a string.
+     */
+    private static String readResource(String path) {
+        try (InputStream in = App.class.getClassLoader().getResourceAsStream(path)) {
+            if (in == null)
+                throw new IllegalArgumentException("Missing resource: " + path);
+
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                return br.lines().collect(Collectors.joining("\n")).trim();
             }
-            else
-                return null;
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
-            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to read " + path, e);
         }
     }
 
-    public void displayEmployee(Employee emp)
-    {
-        if (emp != null)
-        {
-            System.out.println(
-                    emp.emp_no + " "
-                            + emp.first_name + " "
-                            + emp.last_name + "\n"
-                            + emp.title + "\n"
-                            + "Salary: £" + emp.salary + "\n"
-                            + emp.dept_name + "\n"
-                            + "Manager: " + emp.manager + "\n");
+    // ---------- Result Printer ----------
+
+    /**
+     * Prints out the contents of a ResultSet in a basic table format.
+     */
+    private static void printResultSet(ResultSet rs) throws SQLException {
+        ResultSetMetaData md = rs.getMetaData();
+        int cols = md.getColumnCount();
+
+        // Print header row
+        StringBuilder header = new StringBuilder();
+        for (int c = 1; c <= cols; c++) {
+            header.append(md.getColumnLabel(c));
+            if (c < cols) header.append(" | ");
         }
+        System.out.println(header);
+        System.out.println("-".repeat(header.length()));
+
+        // Print each row of data
+        int count = 0;
+        while (rs.next()) {
+            StringBuilder row = new StringBuilder();
+            for (int c = 1; c <= cols; c++) {
+                row.append(rs.getString(c));
+                if (c < cols) row.append(" | ");
+            }
+            System.out.println(row);
+            count++;
+        }
+
+        System.out.println("(rows: " + count + ")\n");
     }
 
+    // ---------- Main Execution ----------
 
-    public static void main(String[] args)
-    {
-        // Create new Application
-        App a = new App();
+    public static void main(String[] args) throws Exception {
+        App app = new App();
+        System.out.println("Application started successfully");
+        // Connect to the database (this will keep retrying until it’s ready)
+        app.con = app.connect();
 
-        // Connect to database
-        a.connect();
-        // Get Employee
-        Employee emp = a.getEmployee(255530);
-        // Display results
-        a.displayEmployee(emp);
+        // A list of SQL files to run, in order.
+        // These files live in src/main/resources/UseCases/
+        List<String> files = List.of(
+                "UseCases/7_CitiesInWorld.sql",
+                "UseCases/8_CitiesInContinent.sql",
+                "UseCases/9_CitiesInRegion.sql",
+                "UseCases/10_CitiesInCountry.sql",
+                "UseCases/11_CitiesInDistrict.sql",
+                "UseCases/12_TopPopulatedCities.sql",
+                "UseCases/19_CapitalsOrder.sql",
+                "UseCases/20_TopPopulatedCapitals.sql",
+                "UseCases/21_TopPopulatedCapitalsContinent.sql",
+                "UseCases/22_TopPopulatedCapitalsRegion.sql",
+                "UseCases/23_PeoplePopulation.sql",
+                "UseCases/25_PeopleInCityVsNotInCity.sql",
+                "UseCases/26_WorldPopulation.sql",
+                "UseCases/27_ContinentPopulation.sql",
+                "UseCases/28_PopulationOfCountry.sql",
+                "UseCases/30_CityPopulation.sql",
+                "UseCases/32_CountryReport.sql",
+                "UseCases/34_CapitalCityReport.sql",
+                "UseCases/35_PeopleInCityVsNotInCountry.sql"
+        );
 
-        // Disconnect from database
-        a.disconnect();
+        // Create a Statement object for running SQL commands
+        try (Statement st = app.con.createStatement()) {
+            for (String f : files) {
+                // Read and execute each SQL script
+                String sql = readResource(f);
+                System.out.println("=== Running " + f + " ===");
+                long start = System.nanoTime();
+
+                try (ResultSet rs = st.executeQuery(sql)) {
+                    // Print out the results of this query
+                    printResultSet(rs);
+                }
+
+                long elapsedMs = Duration.ofNanos(System.nanoTime() - start).toMillis();
+                System.out.println("Finished in " + elapsedMs + " ms\n");
+            }
+        }
+
+        // Close the database connection when done
+        app.con.close();
     }
 }
