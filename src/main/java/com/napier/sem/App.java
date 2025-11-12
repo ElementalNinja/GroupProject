@@ -126,7 +126,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         App app = new App();
-
+        System.out.println("Application started successfully");
         // Connect to the database (this will keep retrying until it’s ready)
         app.con = app.connect();
 
