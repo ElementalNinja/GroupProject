@@ -3,9 +3,15 @@ name: Build and Integration Test
 on:
   # Triggers on code pushes or when a pull request is opened or updated
   push:
-    branches: [ master, main ]
+    branches:
+      - master
+      - main
+      - feature/**
   pull_request:
-    branches: [ master, main ]
+    branches:
+      - master
+      - main
+      - feature/**
 
 jobs:
   build-and-test:
