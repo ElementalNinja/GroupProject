@@ -1,22 +1,76 @@
-name: Reads the SQL Data and prints out text showcasing the data
-on: push
+name: CI/CD Pipeline - Build and Integration Test
+
+on:
+  # Triggers on code pushes or when a pull request is opened or updated
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
 
 jobs:
-  build:
-    name: Hello world action
-    runs-on: ubuntu-22.04
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    #Define the MySQL Service Container
+    services:
+      mysql:
+        image: mysql:8.0
+        # Set the environment variables your AppIntegrationTest is looking for
+        env:
+          MYSQL_ROOT_PASSWORD: example
+          MYSQL_DATABASE: world
+        options: >- # Wait for the DB to be fully ready before starting the tests
+          --health-cmd "mysqladmin ping -h 127.0.0.1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      # Checkout the Code
+      - uses: actions/checkout@v4
+
+      # Set up the Java Environment
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'
-      - name: Build with Maven
-        run: mvn package
-      - name: Run docker compose
-        run: docker compose up --abort-on-container-exit
+          distribution: 'temurin'
+          cache: maven
 
+      # Set Environment Variables for Connection
+      # These variables override the defaults in AppIntegrationTest,
+      - name: Set Database Connection Variables
+        run: |
+          echo "DB_HOST=mysql" >> $GITHUB_ENV # IMPORTANT: 'mysql' is the service hostname
+          echo "DB_PORT=3306" >> $GITHUB_ENV 
+          echo "DB_NAME=world" >> $GITHUB_ENV
+          echo "DB_USER=root" >> $GITHUB_ENV
+          echo "DB_PASSWORD=example" >> $GITHUB_ENV
+
+      # 5. Wait and Seed the Database
+      - name: Install MySQL Client and Seed Database
+        run: |
+          # Install the client to interact with the service container
+          sudo apt-get update && sudo apt-get install -y mysql-client
+          
+          # Wait loop to ensure MySQL is fully up and running
+          echo "Waiting for MySQL service..."
+          for i in {1..20}; do
+            if mysql -h mysql -u root -pexample -e "SELECT 1;" > /dev/null 2>&1; then
+              echo "MySQL is ready."
+              break
+            fi
+            sleep 1
+          done
+          
+          # Execute your database schema and data scripts
+          # You must have your schema and seed data in your repository!
+          echo "Seeding 'world' database..."
+          mysql -h mysql -u root -pexample world < src/main/resources/sql/schema.sql
+          mysql -h mysql -u root -pexample world < src/main/resources/sql/data.sql
+        env:
+          MYSQL_HOST: 127.0.0.1 # Used by the health-check
+
+      # 6. Run the Integration Tests
+      - name: Execute Integration Tests
+        run: mvn clean verify # 'verify' phase runs tests, including integration tests by default
