@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.napier.sem</groupId>
-    <artifactId>seMethods</artifactId>
-    <version>0.2.0.1</version>
+    <groupId>org.example</groupId>
+    <artifactId>GroupProject</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -34,7 +34,7 @@
 
     <build>
         <plugins>
-            <!-- Unit tests -->
+            <!-- Unit tests (surefire) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -44,22 +44,35 @@
                 </configuration>
             </plugin>
 
-            <!-- Integration tests that picks up *IT.java / *IntegrationTest.java -->
+            <!-- Integration tests (failsafe)-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${surefire.failsafe.version}</version>
                 <executions>
+                    <!-- Run the tests during the 'integration-test' phase -->
                     <execution>
+                        <id>integration-test-execution</id>
                         <goals>
                             <goal>integration-test</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <useModulePath>false</useModulePath>
+                        </configuration>
+                    </execution>
+                    <!-- Verify the results during the 'verify' phase -->
+                    <execution>
+                        <id>integration-test-verify</id>
+                        <goals>
                             <goal>verify</goal>
                         </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <useModulePath>false</useModulePath>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <useModulePath>false</useModulePath>
-                </configuration>
             </plugin>
 
             <!-- JAR with main class -->
