@@ -34,9 +34,30 @@ public class AppIntegrationTest {
         String url = "jdbc:mysql://" + host + ":" + port + "/" + db
                 + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
-        // Attempt connection with the corrected port
-        con = DriverManager.getConnection(url, user, pass);
-        assertNotNull(con, "DB connection should be established");
+// --- CONNECTION RETRY LOGIC ---
+        int retries = 10;
+        int waitTime = 3000; // 3 seconds wait between attempts
+
+        for (int i = 0; i < retries; i++) {
+            try {
+                // Attempt connection using the URL
+                con = DriverManager.getConnection(url, user, pass);
+                System.out.println("Database connection established successfully on attempt " + (i + 1));
+                break; // Exit loop if successful
+            } catch (Exception e) {
+                System.err.println("DB Connection failed on attempt " + (i + 1) + ". Retrying in " + waitTime / 1000 + "s. Error: " + e.getMessage());
+                if (i == retries - 1) {
+                    // Re-throw the exception on the final attempt
+                    throw e;
+                }
+                // Wait before next attempt
+                Thread.sleep(waitTime);
+            }
+        }
+        // --- End Retry Logic ---
+
+        // Final assertion: This confirms the loop succeeded.
+        assertNotNull(con, "FATAL: Failed to establish DB connection after " + retries + " attempts. Hostname resolution failed.");
     }
     /**
      * Executes once after all tests. Closes DB connection.
