@@ -1,7 +1,7 @@
 name: Build and Integration Test
 
 on:
-  # Triggers on code pushes or when a pull request is opened or updated
+  # Triggers on code pushes or when a pull request is opened (or updated)
   push:
     branches:
       - master
