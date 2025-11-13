@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Build and Integration Test
+name: Build and Integration Test
 
 on:
   # Triggers on code pushes or when a pull request is opened or updated
