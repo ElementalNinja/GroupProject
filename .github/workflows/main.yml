@@ -17,7 +17,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    #Define the MySQL Service Container
+    # Define the MySQL Service Container
     services:
       mysql:
         image: mysql:8.0
@@ -44,7 +44,6 @@ jobs:
           cache: maven
 
       # Set Environment Variables for Connection
-      # These variables override the defaults in AppIntegrationTest,
       - name: Set Database Connection Variables
         run: |
           echo "DB_HOST=mysql" >> $GITHUB_ENV # IMPORTANT: 'mysql' is the service hostname
@@ -55,8 +54,9 @@ jobs:
 
       # Wait and Seed the Database
       - name: Install MySQL Client and Seed Database
-        run:
-          sudo apt-get update && sudo apt-get install -y mysql-client
+        run: | 
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
           
           # Wait loop to ensure MySQL is fully up and running
           echo "Waiting for MySQL service..."
@@ -76,4 +76,4 @@ jobs:
 
       # 6. Run the Integration Tests
       - name: Execute Integration Tests
-        run: mvn clean verify # 'verify' phase runs tests, including integration tests by default
+        run: mvn clean verify
