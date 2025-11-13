@@ -69,11 +69,12 @@ jobs:
             sleep 1
           done
           
-          echo "Seeding 'world' database..."
-          mysql -h mysql -u root -pexample world < src/main/resources/schema.sql
-          mysql -h mysql -u root -pexample world < src/main/resources/data.sql
+          # Execute the single World DB dump file
+          echo "Seeding 'world' database with full dump..."
+          # FIX: Point the input (<) directly to your world.sql file
+          mysql -h mysql -u root -pexample world < db/world.sql
         env:
-          MYSQL_HOST: 127.0.0.1 # Used by the health-check
+          MYSQL_HOST: 127.0.0.1
 
       # 6. Run the Integration Tests
       - name: Execute Integration Tests
