@@ -54,7 +54,7 @@ jobs:
           echo "DB_USER=root" >> $GITHUB_ENV
           echo "DB_PASSWORD=example" >> $GITHUB_ENV
 
-      # 5. Wait and Seed the Database
+      # Wait and Seed the Database
       - name: Install MySQL Client and Seed Database
         run: |
           sudo apt-get update
@@ -66,6 +66,6 @@ jobs:
           echo "Seeding 'world' database with full dump..."
           mysql -h 127.0.0.1 -P 3306 -u root -pexample world < db/world_db/world.sql
 
-      # 6. Run the Integration Tests
+      # Run the Integration Tests
       - name: Execute Integration Tests
         run: mvn clean install -U
