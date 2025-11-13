@@ -1,6 +1,6 @@
-This is the develop branch for 0.3.0-alpha-1.
+This is the master branch for 0.3.1
 
-![Feature/Use-Cases Build Status](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=feature/use-cases&label=Feature%2FUse-Cases%20Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
+![Master Build Status](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=master&label=Master%20Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
 
 [![License](https://img.shields.io/github/license/ElementalNinja/devops?style=for-the-badge&label=License&logo=github&logoColor=white)](https://github.com/ElementalNinja/devops/blob/master/LICENSE)
 
