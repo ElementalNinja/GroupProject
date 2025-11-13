@@ -1,14 +1,19 @@
 package com.napier.sem;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-
-class UnitTesting
+public class AppTest
 {
-    @Test
-    void unitTest1()
+    static App app;
+
+    @BeforeAll
+    static void init()
     {
-        assertEquals(5, 5);
+        app = new App();
     }
-}
