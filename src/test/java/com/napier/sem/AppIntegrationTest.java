@@ -26,7 +26,7 @@ public class AppIntegrationTest {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         String host = env("DB_HOST", "127.0.0.1");
-        String port = env("DB_PORT", "3306");
+        String port = env("DB_PORT", "33060");
         String db   = env("DB_NAME", "world");
         String user = env("DB_USER", "root");
         String pass = env("DB_PASSWORD", "example");

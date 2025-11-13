@@ -65,7 +65,7 @@ public class App {
     /**
      * Reads an environment variable, or returns a default if it’s not set.
      */
-    private static String getenv(String key, String fallback) {
+    static String getenv(String key, String fallback) {
         String value = System.getenv(key);
         return (value == null || value.isBlank()) ? fallback : value;
     }
@@ -75,7 +75,7 @@ public class App {
     /**
      * Reads an SQL file from the resources folder and returns it as a string.
      */
-    private static String readResource(String path) {
+    static String readResource(String path) {
         try (InputStream in = App.class.getClassLoader().getResourceAsStream(path)) {
             if (in == null)
                 throw new IllegalArgumentException("Missing resource: " + path);
@@ -134,10 +134,10 @@ public class App {
         // These files live in src/main/resources/UseCases/
         List<String> files = List.of(
                 "UseCases/1_AllCountriesOrdered.sql",
-                "UseCases/2_CountriesInAContinent.sql"
-                "UseCases/3_CountriesInARegion.sql"
+                "UseCases/2_CountriesInAContinent.sql",
+                "UseCases/3_CountriesInARegion.sql",
                 "UseCases/4_NPopulatedCountries.sql",
-                "UseCases/5_NpopulatedCountriesContinent.sql",
+                "UseCases/5_NPopulatedCountriesContinent.sql",
                 "UseCases/6_NPopulatedCountriesRegion.sql",
                 "UseCases/7_CitiesInWorld.sql",
                 "UseCases/8_CitiesInContinent.sql",
