@@ -19,7 +19,6 @@
     </deployment>
     <method v="2">
       <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean package -DskipTests" />
-      <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_No Cache Compose" />
     </method>
   </configuration>
 </component>
