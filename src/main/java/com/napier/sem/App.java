@@ -133,6 +133,12 @@ public class App {
         // A list of SQL files to run, in order.
         // These files live in src/main/resources/UseCases/
         List<String> files = List.of(
+                "UseCases/1_AllCountriesOrdered.sql",
+                "UseCases/2_CountriesInAContinent.sql"
+                "UseCases/3_CountriesInARegion.sql"
+                "UseCases/4_NPopulatedCountries.sql",
+                "UseCases/5_NpopulatedCountriesContinent.sql",
+                "UseCases/6_NPopulatedCountriesRegion.sql",
                 "UseCases/7_CitiesInWorld.sql",
                 "UseCases/8_CitiesInContinent.sql",
                 "UseCases/9_CitiesInRegion.sql",
