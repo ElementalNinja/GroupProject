@@ -17,4 +17,18 @@ class UnitTest {
         assertNotNull(path);
         assertNotEquals("fallback", path);
     }
+
+    @Test
+    void readResource_loadsExistingSqlFile() {
+        String sql = App.readResource("UseCases/1_AllCountriesOrdered.sql");
+
+        assertNotNull(sql);
+        assertFalse(sql.isBlank(), "SQL should not be empty");
+        assertTrue(sql.toLowerCase().contains("select"), "SQL should contain SELECT");
+    }
+
+    @Test
+    void redResource_throwsForMissingFile() {
+        assertThrows(RuntimeException.class, () -> App.readResource("UseCases/notarealfile.sql"));
+    }
 }
