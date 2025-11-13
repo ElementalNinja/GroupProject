@@ -63,8 +63,6 @@ jobs:
             sleep 1
           done
           
-          # Execute your database schema and data scripts
-          # You must have your schema and seed data in your repository!
           echo "Seeding 'world' database..."
           mysql -h mysql -u root -pexample world < src/main/resources/sql/schema.sql
           mysql -h mysql -u root -pexample world < src/main/resources/sql/data.sql
