@@ -69,4 +69,4 @@ jobs:
 
       # 6. Run the Integration Tests
       - name: Execute Integration Tests
-        run: mvn clean verify
+        run: mvn clean install -U
