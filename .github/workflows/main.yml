@@ -64,7 +64,7 @@ jobs:
           sleep 10s 
           
           echo "Seeding 'world' database with full dump..."
-          mysql -h mysql -P 3306 -u root -pexample world < db/world_db/world.sql
+          mysql -h 127.0.0.1 -P 3306 -u root -pexample world < db/world_db/world.sql
 
       # 6. Run the Integration Tests
       - name: Execute Integration Tests
