@@ -53,7 +53,7 @@ jobs:
           echo "DB_USER=root" >> $GITHUB_ENV
           echo "DB_PASSWORD=example" >> $GITHUB_ENV
 
-      # 5. Wait and Seed the Database
+      # Wait and Seed the Database
       - name: Install MySQL Client and Seed Database
         run:
           sudo apt-get update && sudo apt-get install -y mysql-client
