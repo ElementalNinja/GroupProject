@@ -4,6 +4,6 @@ SELECT
 FROM
     city
 WHERE
-    city.District = 'Kabol'
+    city.District = 'Noord-Holland'
 GROUP BY
     city.District;
