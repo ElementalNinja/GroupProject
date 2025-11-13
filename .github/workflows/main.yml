@@ -70,8 +70,8 @@ jobs:
           done
           
           echo "Seeding 'world' database..."
-          mysql -h mysql -u root -pexample world < src/main/resources/sql/schema.sql
-          mysql -h mysql -u root -pexample world < src/main/resources/sql/data.sql
+          mysql -h mysql -u root -pexample world < src/main/resources/schema.sql
+          mysql -h mysql -u root -pexample world < src/main/resources/data.sql
         env:
           MYSQL_HOST: 127.0.0.1 # Used by the health-check
 
