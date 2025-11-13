@@ -55,8 +55,7 @@ jobs:
 
       # 5. Wait and Seed the Database
       - name: Install MySQL Client and Seed Database
-        run: |
-          # Install the client to interact with the service container
+        run:
           sudo apt-get update && sudo apt-get install -y mysql-client
           
           # Wait loop to ensure MySQL is fully up and running
@@ -71,8 +70,7 @@ jobs:
           
           # Execute the single World DB dump file
           echo "Seeding 'world' database with full dump..."
-          # FIX: Point the input (<) directly to your world.sql file
-          mysql -h mysql -u root -pexample world < db/world.sql
+          mysql -h mysql -u root -pexample world < db/world_db/world.sql
         env:
           MYSQL_HOST: 127.0.0.1
 
