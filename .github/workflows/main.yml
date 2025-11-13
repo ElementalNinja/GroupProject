@@ -52,21 +52,14 @@ jobs:
           echo "DB_USER=root" >> $GITHUB_ENV
           echo "DB_PASSWORD=example" >> $GITHUB_ENV
 
-      # Wait and Seed the Database
+      # 5. Wait and Seed the Database
       - name: Install MySQL Client and Seed Database
-        run: | 
+        run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
           
-          # Wait loop to ensure MySQL is fully up and running
-          echo "Waiting for MySQL service..."
-          for i in {1..20}; do
-            if mysql -h mysql -u root -pexample -e "SELECT 1;" > /dev/null 2>&1; then
-              echo "MySQL is ready."
-              break
-            fi
-            sleep 1
-          done
+          echo "Giving MySQL service 10 seconds to stabilize..."
+          sleep 10s 
           
           # Execute the single World DB dump file
           echo "Seeding 'world' database with full dump..."
