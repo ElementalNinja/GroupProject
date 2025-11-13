@@ -25,7 +25,6 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: example
           MYSQL_DATABASE: world
-        # Explicitly expose port 3306 so we can connect via localhost
         ports:
           - 3306:3306
         options: >- # Wait for the DB to be fully ready before starting the tests
