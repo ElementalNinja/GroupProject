@@ -25,6 +25,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: example
           MYSQL_DATABASE: world
+        # Explicitly expose port 3306 so we can connect via 127.0.0.1
         ports:
           - 3306:3306
         options: >- # Wait for the DB to be fully ready before starting the tests
@@ -45,9 +46,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Set Database Connection Variables
+      - name: Set Database Connection Variables (For Java App)
         run: |
-          echo "DB_HOST=mysql" >> $GITHUB_ENV 
+          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV # Java App Host
           echo "DB_PORT=3306" >> $GITHUB_ENV 
           echo "DB_NAME=world" >> $GITHUB_ENV
           echo "DB_USER=root" >> $GITHUB_ENV
@@ -62,9 +63,8 @@ jobs:
           echo "Giving MySQL service 10 seconds to stabilize..."
           sleep 10s 
           
-          # Execute the single World DB dump file
           echo "Seeding 'world' database with full dump..."
-          mysql -h 127.0.0.1 -P 3306 -u root -pexample world < db/world_db/world.sql
+          mysql -h mysql -P 3306 -u root -pexample world < db/world_db/world.sql
 
       # 6. Run the Integration Tests
       - name: Execute Integration Tests
