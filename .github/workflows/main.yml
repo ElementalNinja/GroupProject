@@ -5,14 +5,8 @@ permissions:
   contents: write
 
 on:
-  push:
-    branches:
-      - master
-      - main
-  pull_request:
-    branches:
-      - master
-      - main
+  push:        # 🔹 any branch
+  pull_request:  # 🔹 any PR, regardless of source/target branch
 
 jobs:
   UnitTests:
@@ -96,7 +90,7 @@ jobs:
           docker compose up --abort-on-container-exit
 
       - name: Create GitHub Release
-        if: github.ref == 'refs/heads/master'   # <-- only release on master
+        if: github.ref == 'refs/heads/master'   # ⬅ only release on master
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
