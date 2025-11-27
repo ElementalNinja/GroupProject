@@ -26,14 +26,12 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      # Adjust the test class if your package/name is different
       - name: Unit Tests
-        run: mvn -Dtest=com.napier.sem.AppTest test
+        run: mvn test
 
       - name: CodeCov
         uses: codecov/codecov-action@v2
         with:
-          # JaCoCo writes HTML/XML reports under this folder
           directory: ./target/site/jacoco
           flags: UnitTests
           verbose: true
