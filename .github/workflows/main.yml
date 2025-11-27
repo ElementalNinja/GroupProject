@@ -1,92 +1,100 @@
-name: Build and Integration Test
+name: CI/CD Pipeline - Build, Test and Release
 
 on:
-  # Triggers on code pushes or when a pull request is opened or updated
   push:
     branches:
       - master
       - main
-      - feature/**
   pull_request:
     branches:
       - master
       - main
-      - feature/**
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-
-    # Define the MySQL Service Container
-    services:
-      mysql:
-        image: mysql:8.0
-        # Set the environment variables your AppIntegrationTest is looking for
-        env:
-          MYSQL_ROOT_PASSWORD: example
-          MYSQL_DATABASE: world
-        # Explicitly expose port 3306 so we can connect via 127.0.0.1
-        ports:
-          - 3306:3306
-        options: >- # Wait for the DB to be fully ready before starting the tests
-          --health-cmd "mysqladmin ping -h 127.0.0.1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
-
-    steps:
-      # Checkout the Code
-      - uses: actions/checkout@v4
-
-      # Set up the Java Environment
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Set Database Connection Variables (For Java App)
-        run: |
-          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV # Java App Host
-          echo "DB_PORT=3306" >> $GITHUB_ENV 
-          echo "DB_NAME=world" >> $GITHUB_ENV
-          echo "DB_USER=root" >> $GITHUB_ENV
-          echo "DB_PASSWORD=example" >> $GITHUB_ENV
-
-      # Wait and Seed the Database
-      - name: Install MySQL Client and Seed Database
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y mysql-client
-          
-          echo "Giving MySQL service 10 seconds to stabilize..."
-          sleep 10s 
-          
-          echo "Seeding 'world' database with full dump..."
-          mysql -h 127.0.0.1 -P 3306 -u root -pexample world < db/world_db/world.sql
-
-      # Run the Integration Tests
-      - name: Execute Integration Tests
-        run: mvn clean install -U
-  build:
-    name: Build Run in Docker and Deploy Release
+  UnitTests:
+    name: Unit Tests
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
+
+      # Adjust the test class if your package/name is different
+      - name: Unit Tests
+        run: mvn -Dtest=com.napier.sem.AppTest test
+
+      - name: CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          # JaCoCo writes HTML/XML reports under this folder
+          directory: ./target/site/jacoco
+          flags: UnitTests
+          verbose: true
+
+  IntegrationTests:
+    name: Integration Tests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      # This assumes you have a ./db folder with a Dockerfile for the DB
+      - name: Integration Tests and CodeCov
+        run: |
+          docker build -t database ./db
+          docker run --name employees -dp 33060:3306 database
+          mvn -Dtest=com.napier.sem.AppIntegrationTest test
+          docker stop employees
+          docker rm employees
+          docker image rm database
+
+      - name: CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: ./target/site/jacoco
+          flags: IntegrationTests
+          verbose: true
+
+  build:
+    name: Build Run in Docker and Deploy Release
+    runs-on: ubuntu-22.04
+    needs:
+      - UnitTests
+      - IntegrationTests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
       - name: Package and Run docker compose
         run: |
           mvn package -DskipTests
           docker compose up --abort-on-container-exit
-      - uses: "marvinpinto/action-automatic-releases@latest"
+
+      - name: Create GitHub Release
+        uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false

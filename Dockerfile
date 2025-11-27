@@ -1,13 +1,18 @@
 # ---- build stage ----
 FROM maven:3.9-eclipse-temurin-17 AS build
-WORKDIR /app
+WORKDIR /App
+
 COPY pom.xml .
 COPY src ./src
-# build a fat jar
-RUN mvn -q -DskipTests package assembly:single
+
+# Build with fat JAR (assembly plugin bound to package phase)
+RUN mvn -q -DskipTests package
 
 # ---- runtime stage ----
 FROM eclipse-temurin:17
-WORKDIR /app
-COPY --from=build /app/target/*-jar-with-dependencies.jar app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+WORKDIR /App
+
+# Copy the JAR built in the build stage
+COPY --from=build /App/target/App.jar App.jar
+
+ENTRYPOINT ["java", "-jar", "App.jar"]
