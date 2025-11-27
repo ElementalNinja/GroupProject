@@ -60,7 +60,7 @@ jobs:
           docker build -t database ./db
           docker run --name employees -dp 33060:3306 database
           # FIXME: update this to AppIT or *IT if you renamed the class
-          mvn -Dtest=com.napier.sem.AppIntegrationTest test
+          mvn -Dtest=com.napier.sem.AppIT test
           docker stop employees
           docker rm employees
           docker image rm database
