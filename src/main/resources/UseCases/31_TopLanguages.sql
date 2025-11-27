@@ -4,7 +4,7 @@ Chinese.  English.  Hindi.  Spanish.  Arabic.*/
 SELECT
     countrylanguage.Language AS `Language`,
     SUM(country.Population) AS 'People',
-    CONCAT(SUM(countrylanguage.Percentage), '%') AS 'Percent'
+    SUM(countrylanguage.Percentage AS 'Percentage'
 FROM countrylanguage
 JOIN country ON country.Code = countrylanguage.CountryCode
     WHERE countrylanguage.Language = 'Chinese' OR countrylanguage.Language = 'English' OR countrylanguage.Language = 'Hindi' OR countrylanguage.Language = 'Spanish' OR countrylanguage.Language = 'Arabic'
