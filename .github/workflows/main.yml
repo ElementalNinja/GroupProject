@@ -5,8 +5,8 @@ permissions:
   contents: write
 
 on:
-  push:        # 🔹 any branch
-  pull_request:  # 🔹 any PR, regardless of source/target branch
+  push:        # any branch
+  pull_request:  # any PR, regardless of source/target branch
 
 jobs:
   UnitTests:
