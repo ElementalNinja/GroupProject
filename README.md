@@ -1,4 +1,4 @@
-This is the master branch for 0.3.1
+This is the master branch for 0.3.2
 
 ![Master Build Status](https://img.shields.io/github/actions/workflow/status/ElementalNinja/GroupProject/main.yml?branch=master&label=Master%20Build%20Status&logo=githubactions&logoColor=white&style=for-the-badge)
 
