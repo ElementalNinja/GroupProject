@@ -59,7 +59,6 @@ jobs:
         run: |
           docker build -t database ./db
           docker run --name employees -dp 33060:3306 database
-          # FIXME: update this to AppIT or *IT if you renamed the class
           mvn -Dtest=com.napier.sem.AppIT test
           docker stop employees
           docker rm employees
@@ -79,9 +78,6 @@ jobs:
       - UnitTests
       - IntegrationTests
 
-    # 👇 only run this job (build + release) when the ref is *master*
-    if: github.ref == 'refs/heads/master'
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -100,6 +96,7 @@ jobs:
           docker compose up --abort-on-container-exit
 
       - name: Create GitHub Release
+        if: github.ref == 'refs/heads/master'   # <-- only release on master
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
