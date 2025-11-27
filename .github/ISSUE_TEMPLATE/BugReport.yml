@@ -5,6 +5,7 @@ labels: ["bug", "triage"]
 projects: ["octo-org/1", "octo-org/44"]
 assignees:
   - octocat
+type: bug
 body:
   - type: markdown
     attributes:
@@ -18,6 +19,7 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
+  - type: textarea
     id: what-happened
     attributes:
       label: What happened?
@@ -26,6 +28,7 @@ body:
       value: "A bug happened!"
     validations:
       required: true
+  - type: dropdown
     id: version
     attributes:
       label: Version
@@ -36,6 +39,7 @@ body:
       default: 0
     validations:
       required: true
+  - type: dropdown
     id: browsers
     attributes:
       label: What browsers are you seeing the problem on?
@@ -45,11 +49,13 @@ body:
         - Chrome
         - Safari
         - Microsoft Edge
+  - type: textarea
     id: logs
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
+  - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
