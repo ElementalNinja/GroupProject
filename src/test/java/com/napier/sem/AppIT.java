@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Base integration test class. Verifies core database connection and setup.
  */
 
-public class AppIntegrationTest {
+public class AppIT {
     // Connection object shared by all tests.
     private static Connection con;
     /**
